@@ -1,0 +1,57 @@
+super + shift + s
+	flameshot gui -r | xclip -selection clipboard -t image/png
+
+super + shift + equal
+	sxiv -rt "$HOME/image"
+
+super + {h,j,k,l}
+	bspc node -f {west,south,north,east}
+
+super + alt + {0-9}
+	mpc -q seek {0-9}0%
+
+super + {alt,ctrl,alt + ctrl} + XF86Eject
+	sudo systemctl {suspend,reboot,poweroff}
+
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+super + o
+	firefox
+
+super + alt + control + {h,j,k,l} ; {0-9}
+	bspc node @{west,south,north,east} -r 0.{0-9}
+
+super + alt + p
+	bspc config focus_follows_pointer {true,false}
+
+# Smart resize, will grow or shrink depending on location.
+# Will always grow for floating nodes.
+super + ctrl + alt + {Left,Down,Up,Right}
+	n=10; \
+	{ d1=left;   d2=right;  dx=-$n; dy=0;   \
+	, d1=bottom; d2=top;    dx=0;   dy=$n;  \
+	, d1=top;    d2=bottom; dx=0;   dy=-$n; \
+	, d1=right;  d2=left;   dx=$n;  dy=0;   \
+	} \
+	bspc node --resize $d1 $dx $dy || bspc node --resize $d2 $dx $dy
+
+super + Return
+	alacritty
+
+super + d
+	rofi -combi-modi drun#ssh -show combi -run-shell-command 'alacritty -e fish -ic "{cmd} && read"'
+
+super + shift + q
+	bspc node -c
+
+# quit/restart bspwm
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+# switch workspaces
+super + {1-9,0}
+	bspc desktop --focus ^{1-9,10}
+
+super + shift + {1-9,0}
+	bspc node --to-desktop ^{1-9,10}
